@@ -23,11 +23,9 @@ pipeline {
 
         stage('Terraform Init') {
                     steps {
-                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-reflection']]){
-                          dir('deploy_python_app') {
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'prov']]){
                             sh 'echo "=================Terraform Init=================="'
                             sh 'terraform init'
-                        }
                     }
                 }
         }
@@ -36,7 +34,7 @@ pipeline {
             steps {
                 script {
                     if (params.PLAN_TERRAFORM) {
-                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-reflection']]){
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'prov']]){
                                 sh 'echo "=================Terraform Plan=================="'
                                 sh 'terraform plan'
                         }
@@ -49,7 +47,7 @@ pipeline {
             steps {
                 script {
                     if (params.APPLY_TERRAFORM) {
-                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-reflection']]){
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'prov']]){
                                 sh 'echo "=================Terraform Apply=================="'
                                 sh 'terraform apply -auto-approve'
                         }
@@ -62,7 +60,7 @@ pipeline {
             steps {
                 script {
                     if (params.DESTROY_TERRAFORM) {
-                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-reflection']]){
+                       withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'prov']]){
                                 sh 'echo "=================Terraform Destroy=================="'
                                 sh 'terraform destroy -auto-approve'
                         }
