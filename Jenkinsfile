@@ -24,8 +24,10 @@ pipeline {
         stage('Terraform Init') {
                     steps {
                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-reflection']]){
+                          dir('deploy_python_app') {
                             sh 'echo "=================Terraform Init=================="'
                             sh 'terraform init'
+                        }
                     }
                 }
         }
